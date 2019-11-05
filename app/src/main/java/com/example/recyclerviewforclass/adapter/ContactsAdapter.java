@@ -1,6 +1,8 @@
 package com.example.recyclerviewforclass.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recyclerviewforclass.ContactsActivity;
 import com.example.recyclerviewforclass.R;
 import com.example.recyclerviewforclass.model.Contacts;
 
@@ -40,10 +43,22 @@ public class ContactsAdapter  extends RecyclerView.Adapter<ContactsAdapter.Conta
     @Override
     public void onBindViewHolder(@NonNull ContactsViewHolder holder, int position) {
     //data lai set garni
-        Contacts contacts=contactsList.get(position);
+        final Contacts contacts=contactsList.get(position);
         holder.imgProfile.setImageResource(contacts.getImageId());
         holder.textViewphone.setText(contacts.getPhoneNo());
         holder.textViewname.setText(contacts.getName());
+
+        //adding listner
+        holder.imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, ContactsActivity.class);
+                intent.putExtra("image", contacts.getImageId());
+                intent.putExtra("phone", contacts.getPhoneNo());
+                intent.putExtra("name", contacts.getName());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
